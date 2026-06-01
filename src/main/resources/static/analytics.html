@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Analytics</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🚗 Parking System</h2>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="users.html">👤 Users</a>
+    <a href="slots.html">🅿 Parking Slots</a>
+    <a href="vehicles.html">🚗 Vehicles</a>
+    <a href="payments.html">💳 Payments</a>
+    <a href="analytics.html">📈 Analytics</a>
+    <a href="plate.html">📷 Plate AI</a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="navbar">
+        <h1>Parking Analytics</h1>
+    </div>
+
+    <div class="section">
+
+        <canvas id="parkingChart"></canvas>
+
+    </div>
+
+</div>
+
+<script>
+
+const ctx =
+    document.getElementById('parkingChart');
+
+new Chart(ctx, {
+
+    type: 'bar',
+
+    data: {
+
+        labels: [
+            'Vehicles',
+            'Slots',
+            'Payments'
+        ],
+
+        datasets: [{
+
+            label: 'Analytics',
+
+            data: [12, 20, 8]
+        }]
+    }
+});
+
+</script>
+
+</body>
+</html>

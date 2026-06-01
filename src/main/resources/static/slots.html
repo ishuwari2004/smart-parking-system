@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Parking Slots</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🚗 Parking System</h2>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="users.html">👤 Users</a>
+    <a href="slots.html">🅿 Parking Slots</a>
+    <a href="vehicles.html">🚗 Vehicles</a>
+    <a href="payments.html">💳 Payments</a>
+    <a href="analytics.html">📈 Analytics</a>
+    <a href="plate.html">📷 Plate AI</a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="navbar">
+        <h1>Parking Slot Management</h1>
+    </div>
+
+    <div class="section">
+
+        <h1>Add Parking Slot</h1>
+
+        <input type="text" id="slotNumber" placeholder="Slot Number">
+        <input type="text" id="slotType" placeholder="Slot Type">
+        <input type="text" id="slotStatus" placeholder="Status">
+
+        <button onclick="saveSlot()">
+            Save Slot
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+async function saveSlot() {
+
+    const slot = {
+
+        slotNumber:
+            document.getElementById("slotNumber").value,
+
+        slotType:
+            document.getElementById("slotType").value,
+
+        status:
+            document.getElementById("slotStatus").value
+    };
+
+    await fetch("http://localhost:8080/api/slots", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(slot)
+    });
+
+    alert("Parking Slot Saved");
+}
+
+</script>
+
+</body>
+</html>

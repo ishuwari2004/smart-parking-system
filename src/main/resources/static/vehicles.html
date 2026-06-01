@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicle Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>🚗 Parking System</h2>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="users.html">👤 Users</a>
+    <a href="slots.html">🅿 Parking Slots</a>
+    <a href="vehicles.html">🚗 Vehicles</a>
+    <a href="payments.html">💳 Payments</a>
+    <a href="analytics.html">📈 Analytics</a>
+    <a href="plate.html">📷 Plate AI</a>
+</div>
+
+<div class="main-content">
+
+    <div class="navbar">
+        <h1>Vehicle Management</h1>
+    </div>
+
+    <div class="section">
+        <h1>Vehicle Entry</h1>
+
+        <input type="text" id="vehicleNumber" placeholder="Vehicle Number">
+        <input type="text" id="vehicleType" placeholder="Vehicle Type">
+        <input type="text" id="ownerName" placeholder="Owner Name">
+        <input type="text" id="vehicleSlot" placeholder="Slot Number">
+        <input type="text" id="entryTime" placeholder="Entry Time">
+        <input type="text" id="vehicleStatus" placeholder="Status">
+
+        <button onclick="saveVehicle()">Save Vehicle</button>
+        <div id="vehicleLoader" class="loader"></div>
+    </div>
+
+    <div class="section">
+        <h1>Vehicle Exit</h1>
+
+        <input type="text" id="exitVehicleId" placeholder="Vehicle ID">
+        <input type="text" id="exitTime" placeholder="Exit Time">
+        <input type="text" id="exitStatus" placeholder="Status">
+
+        <button onclick="exitVehicle()">Vehicle Exit</button>
+    </div>
+
+    <div class="section">
+        <h1>Search Vehicle</h1>
+
+        <input type="text" id="searchVehicleNumber" placeholder="Enter Vehicle Number">
+        <button onclick="searchVehicle()">Search Vehicle</button>
+
+        <h3 id="searchResult"></h3>
+    </div>
+
+    <div class="section">
+        <h1>Vehicle List</h1>
+
+        <input type="text"
+               id="tableSearch"
+               placeholder="Search Vehicles..."
+               onkeyup="filterTable()">
+
+        <br><br>
+
+        <button onclick="loadVehicles()">Load Vehicles</button>
+
+        <br><br>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Vehicle Number</th>
+                <th>Type</th>
+                <th>Owner</th>
+                <th>Slot</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody id="vehicleTableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h1>Update Vehicle</h1>
+
+        <input type="text" id="updateVehicleId" placeholder="Vehicle ID">
+        <input type="text" id="updateVehicleType" placeholder="Vehicle Type">
+        <input type="text" id="updateOwnerName" placeholder="Owner Name">
+        <input type="text" id="updateVehicleStatus" placeholder="Status">
+
+        <button onclick="updateVehicle()">Update Vehicle</button>
+    </div>
+
+</div>
+
+<script>
+    async function saveVehicle() {
+        document.getElementById("vehicleLoader").style.display = "block";
+
+        const vehicle = {
+            vehicleNumber: document.getElementById("vehicleNumber").value,
+            vehicleType: document.getElementById("vehicleType").value,
+            ownerName: document.getElementById("ownerName").value,
+            slotNumber: document.getElementById("vehicleSlot").value,
+            entryTime: document.getElementById("entryTime").value,
+            status: document.getElementById("vehicleStatus").value
+        };
+
+        await fetch("http://localhost:8080/api/vehicles", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(vehicle)
+        });
+
+        document.getElementById("vehicleLoader").style.display = "none";
+
+        alert("Vehicle Saved Successfully");
+    }
+
+    async function exitVehicle() {
+        const vehicleId = document.getElementById("exitVehicleId").value;
+
+        const updatedVehicle = {
+            exitTime: document.getElementById("exitTime").value,
+            status: document.getElementById("exitStatus").value
+        };
+
+        await fetch("http://localhost:8080/api/vehicles/exit/" + vehicleId, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedVehicle)
+        });
+
+        alert("Vehicle Exit Updated");
+    }
+
+    async function loadVehicles() {
+        const response = await fetch("http://localhost:8080/api/vehicles");
+        const vehicles = await response.json();
+
+        let tableData = "";
+
+        vehicles.forEach(vehicle => {
+            tableData += `
+                <tr>
+                    <td>${vehicle.vehicleNumber}</td>
+                    <td>${vehicle.vehicleType}</td>
+                    <td>${vehicle.ownerName}</td>
+                    <td>${vehicle.slotNumber}</td>
+                    <td>${vehicle.status}</td>
+                    <td>
+                        <button onclick="deleteVehicle('${vehicle.id}')">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("vehicleTableBody").innerHTML = tableData;
+    }
+
+    async function deleteVehicle(id) {
+        await fetch("http://localhost:8080/api/vehicles/" + id, {
+            method: "DELETE"
+        });
+
+        alert("Vehicle Deleted Successfully");
+
+        loadVehicles();
+    }
+
+    async function updateVehicle() {
+        const vehicleId = document.getElementById("updateVehicleId").value;
+
+        const updatedVehicle = {
+            vehicleType: document.getElementById("updateVehicleType").value,
+            ownerName: document.getElementById("updateOwnerName").value,
+            status: document.getElementById("updateVehicleStatus").value
+        };
+
+        await fetch("http://localhost:8080/api/vehicles/update/" + vehicleId, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedVehicle)
+        });
+
+        alert("Vehicle Updated Successfully");
+
+        loadVehicles();
+    }
+
+    async function searchVehicle() {
+        const vehicleNumber =
+            document.getElementById("searchVehicleNumber").value;
+
+        const response =
+            await fetch("http://localhost:8080/api/vehicles/search/" + vehicleNumber);
+
+        const vehicle = await response.json();
+
+        if (vehicle && vehicle.vehicleNumber) {
+            document.getElementById("searchResult").innerHTML =
+                "Vehicle Found: " +
+                vehicle.vehicleNumber +
+                " | Owner: " +
+                vehicle.ownerName +
+                " | Status: " +
+                vehicle.status;
+        } else {
+            document.getElementById("searchResult").innerHTML =
+                "Vehicle Not Found";
+        }
+    }
+
+    function filterTable() {
+        const input =
+            document.getElementById("tableSearch").value.toLowerCase();
+
+        const rows =
+            document.getElementById("vehicleTableBody")
+                .getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            const text = rows[i].innerText.toLowerCase();
+
+            rows[i].style.display =
+                text.includes(input) ? "" : "none";
+        }
+    }
+</script>
+
+</body>
+
+</html>

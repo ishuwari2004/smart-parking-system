@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Payments</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🚗 Parking System</h2>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="users.html">👤 Users</a>
+    <a href="slots.html">🅿 Parking Slots</a>
+    <a href="vehicles.html">🚗 Vehicles</a>
+    <a href="payments.html">💳 Payments</a>
+    <a href="analytics.html">📈 Analytics</a>
+    <a href="plate.html">📷 Plate AI</a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="navbar">
+        <h1>Payment System</h1>
+    </div>
+
+    <div class="section">
+
+        <h1>Add Payment</h1>
+
+        <input type="text" id="paymentVehicleNumber" placeholder="Vehicle Number">
+
+        <input type="text" id="paymentSlotNumber" placeholder="Slot Number">
+
+        <input type="number" id="hours" placeholder="Hours">
+
+        <input type="number" id="ratePerHour" placeholder="Rate Per Hour">
+
+        <input type="text" id="paymentStatus" placeholder="Payment Status">
+
+        <button onclick="savePayment()">Save Payment</button>
+
+    </div>
+
+</div>
+
+<script>
+
+async function savePayment() {
+
+    const payment = {
+        vehicleNumber: document.getElementById("paymentVehicleNumber").value,
+        slotNumber: document.getElementById("paymentSlotNumber").value,
+        hours: parseInt(document.getElementById("hours").value),
+        ratePerHour: parseFloat(document.getElementById("ratePerHour").value),
+        paymentStatus: document.getElementById("paymentStatus").value
+    };
+
+    await fetch("http://localhost:8080/api/payments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payment)
+    });
+
+    alert("Payment Saved Successfully");
+}
+
+</script>
+
+</body>
+</html>

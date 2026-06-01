@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Secure Parking System</title>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div id="notification"
+     class="notification">
+</div>
+  <div class="sidebar">
+
+    <h2>🚗 Parking System</h2>
+
+    <button onclick="toggleDarkMode()">
+        🌙 Dark Mode
+    </button>
+
+    <a href="#dashboard">📊 Dashboard</a>
+
+    <a href="#users">👤 Users</a>
+
+    <a href="#slots">🅿 Parking Slots</a>
+
+    <a href="#vehicles">🚗 Vehicles</a>
+
+    <a href="#payments">💳 Payments</a>
+
+    <a href="#plate-detection">📷 Plate AI</a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="sidebar">
+
+    <h2>Parking System</h2>
+
+   <a href="#dashboard">📊 Dashboard</a>
+
+<a href="#users">👤 Users</a>
+
+<a href="#slots">🅿 Parking Slots</a>
+
+<a href="#vehicles">🚗 Vehicles</a>
+
+<a href="#payments">💳 Payments</a>
+
+</div>
+
+<div class="main-content">
+    <div class="navbar">
+    <h2>Secure Parking Management System</h2>
+    <h3 id="greetingMessage"></h3>
+    <h3 id="liveClock"></h3>
+</div>
+
+<div class="container">
+
+    <!-- LOGIN SYSTEM -->
+
+    <h1>Login</h1>
+
+    <input type="email" id="loginEmail" placeholder="Enter Email">
+    <br><br>
+
+    <input type="password" id="loginPassword" placeholder="Enter Password">
+    <br><br>
+
+    <button onclick="loginUser()">Login</button>
+
+    <h3 id="loginMessage"></h3>
+
+    <hr>
+
+   <div class="section" id="dashboard">
+
+    <h1>Dashboard</h1>
+
+    <button onclick="loadDashboard()">
+        Load Dashboard
+    </button>
+
+    <br><br>
+
+    <div class="dashboard-grid">
+
+        <div class="card-blue">
+
+            <h2>Total Vehicles</h2>
+
+            <h1 id="totalVehicles">0</h1>
+
+        </div>
+
+        <div class="card-green">
+
+            <h2>Total Slots</h2>
+
+            <h1 id="totalSlots">0</h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <hr>
+    <div class="section" id="users">
+    <!-- USER REGISTRATION -->
+
+    <h1>User Registration</h1>
+
+    <input type="text" id="name" placeholder="Enter Name">
+    <br><br>
+
+    <input type="email" id="email" placeholder="Enter Email">
+    <br><br>
+
+    <input type="password" id="password" placeholder="Enter Password">
+    <br><br>
+
+    <input type="text" id="role" placeholder="Enter Role">
+    <br><br>
+
+    <button onclick="saveUser()">Save User</button>
+
+    <hr>
+    </div>
+    <div class="section" id="slots">
+    <!-- PARKING SLOT -->
+
+    <h1>Add Parking Slot</h1>
+
+    <input type="text" id="slotNumber" placeholder="Enter Slot Number">
+    <br><br>
+
+    <input type="text" id="slotType" placeholder="Enter Slot Type">
+    <br><br>
+
+    <input type="text" id="slotStatus" placeholder="Enter Status">
+    <br><br>
+
+    <button onclick="saveSlot()">Save Slot</button>
+
+    <hr>
+    </div>
+    <div class="section" id="vehicles">
+    <!-- VEHICLE ENTRY -->
+
+    <h1>Vehicle Entry</h1>
+
+    <input type="text" id="vehicleNumber" placeholder="Enter Vehicle Number">
+    <br><br>
+
+    <input type="text" id="vehicleType" placeholder="Enter Vehicle Type">
+    <br><br>
+
+    <input type="text" id="ownerName" placeholder="Enter Owner Name">
+    <br><br>
+
+    <input type="text" id="vehicleSlot" placeholder="Enter Slot Number">
+    <br><br>
+
+    <input type="text" id="entryTime" placeholder="Enter Entry Time">
+    <br><br>
+
+    <input type="text" id="vehicleStatus" placeholder="Enter Status">
+    <br><br>
+
+    <button onclick="saveVehicle()">Save Vehicle</button>
+    <div id="vehicleLoader" class="loader"></div>
+
+    <hr>
+
+    <!-- VEHICLE EXIT -->
+
+    <h1>Vehicle Exit</h1>
+
+    <input type="text" id="exitVehicleId" placeholder="Enter Vehicle ID">
+    <br><br>
+
+    <input type="text" id="exitTime" placeholder="Enter Exit Time">
+    <br><br>
+
+    <input type="text" id="exitStatus" placeholder="Enter Status">
+    <br><br>
+
+    <button onclick="exitVehicle()">Vehicle Exit</button>
+    <hr>
+
+<h1>Search Vehicle</h1>
+
+<input type="text"
+       id="searchVehicleNumber"
+       placeholder="Enter Vehicle Number">
+
+<br><br>
+
+<button onclick="searchVehicle()">
+    Search Vehicle
+</button>
+
+<h3 id="searchResult"></h3>
+    
+
+<hr>
+
+ <!-- VEHICLE TABLE -->
+    <hr>
+
+<h1>Search Vehicle</h1>
+
+<input type="text"
+       id="searchVehicleNumber"
+       placeholder="Enter Vehicle Number">
+
+<br><br>
+
+<button onclick="searchVehicle()">
+    Search Vehicle
+</button>
+
+<h3 id="searchResult"></h3>
+    <h1>Vehicle List</h1>
+
+    <button onclick="loadVehicles()">Load Vehicles</button>
+
+    <br><br>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Vehicle Number</th>
+                <th>Vehicle Type</th>
+                <th>Owner</th>
+                <th>Slot</th>
+                <th>Status</th>
+                 <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="vehicleTableBody">
+
+        </tbody>
+
+    </table>
+
+    <hr>
+    <hr>
+
+<h1>Update Vehicle</h1>
+
+<input type="text" id="updateVehicleId" placeholder="Enter Vehicle ID">
+<br><br>
+
+<input type="text" id="updateVehicleType" placeholder="Enter Vehicle Type">
+<br><br>
+
+<input type="text" id="updateOwnerName" placeholder="Enter Owner Name">
+<br><br>
+
+<input type="text" id="updateVehicleStatus" placeholder="Enter Status">
+<br><br>
+
+<button onclick="updateVehicle()">Update Vehicle</button>
+</div>
+
+    <!-- PAYMENT SYSTEM -->
+    <div class="section" id="payments">
+    <h1>Payment System</h1>
+
+    <input type="text" id="paymentVehicleNumber" placeholder="Enter Vehicle Number">
+    <br><br>
+
+    <input type="text" id="paymentSlotNumber" placeholder="Enter Slot Number">
+    <br><br>
+
+    <input type="number" id="hours" placeholder="Enter Hours">
+    <br><br>
+
+    <input type="number" id="ratePerHour" placeholder="Enter Rate Per Hour">
+    <br><br>
+
+    <input type="text" id="paymentStatus" placeholder="Enter Payment Status">
+    <br><br>
+
+    <button onclick="savePayment()">Save Payment</button>
+    
+    <hr>
+
+<div class="section">
+
+    <h1>Parking Analytics</h1>
+
+    <canvas id="parkingChart"
+            width="400"
+            height="150">
+    </canvas>
+
+</div>
+<hr>
+
+<div class="section" id="plate-detection">
+
+    <h1>Number Plate Detection</h1>
+
+    <input type="file"
+           id="plateImage"
+           accept="image/*"
+           onchange="previewPlateImage()">
+
+    <br><br>
+
+    <img id="platePreview"
+         src=""
+         style="width:300px; display:none; border-radius:12px;">
+
+    <br><br>
+
+    <button onclick="detectPlate()">
+        Detect Number Plate
+    </button>
+
+    <h3 id="detectedPlate"></h3>
+
+</div>
+
+
+    </div>
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // LOGIN USER
+
+        async function loginUser() {
+
+            const loginData = {
+                email: document.getElementById("loginEmail").value,
+                password: document.getElementById("loginPassword").value
+            };
+
+            const response = await fetch("http://localhost:8080/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            const user = await response.json();
+
+            if (user && user.email) {
+
+                document.getElementById("loginMessage").innerHTML =
+                    "Login Success! Role: " + user.role;
+
+            } else {
+
+                document.getElementById("loginMessage").innerHTML =
+                    "Invalid email or password";
+            }
+        }
+
+        // DASHBOARD
+
+        async function loadDashboard() {
+
+            const response = await fetch("http://localhost:8080/api/dashboard");
+
+            const data = await response.json();
+
+         animateValue(
+    "totalVehicles",
+    data.totalVehicles
+);
+
+animateValue(
+    "totalSlots",
+    data.totalSlots
+);
+        }
+
+        // SAVE USER
+
+        async function saveUser() {
+
+            const user = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                role: document.getElementById("role").value
+            };
+
+            await fetch("http://localhost:8080/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user)
+            });
+
+            alert("User Saved Successfully");
+        }
+
+        // SAVE SLOT
+
+        async function saveSlot() {
+
+            const slot = {
+                slotNumber: document.getElementById("slotNumber").value,
+                slotType: document.getElementById("slotType").value,
+                status: document.getElementById("slotStatus").value
+            };
+
+            await fetch("http://localhost:8080/api/slots", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(slot)
+            });
+
+            alert("Parking Slot Saved");
+        }
+
+        // SAVE VEHICLE
+
+        async function saveVehicle() {
+            document.getElementById("vehicleLoader").style.display = "block";
+
+            const vehicle = {
+                vehicleNumber: document.getElementById("vehicleNumber").value,
+                vehicleType: document.getElementById("vehicleType").value,
+                ownerName: document.getElementById("ownerName").value,
+                slotNumber: document.getElementById("vehicleSlot").value,
+                entryTime: document.getElementById("entryTime").value,
+                status: document.getElementById("vehicleStatus").value
+            };
+
+            await fetch("http://localhost:8080/api/vehicles", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(vehicle)
+            });
+
+            document.getElementById("vehicleLoader").style.display = "none";
+            showNotification("Vehicle Saved Successfully");
+        }
+
+        // VEHICLE EXIT
+
+        async function exitVehicle() {
+
+            const vehicleId = document.getElementById("exitVehicleId").value;
+
+            const updatedVehicle = {
+                exitTime: document.getElementById("exitTime").value,
+                status: document.getElementById("exitStatus").value
+            };
+
+            await fetch("http://localhost:8080/api/vehicles/exit/" + vehicleId, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedVehicle)
+            });
+
+            alert("Vehicle Exit Updated");
+        }
+
+        // LOAD VEHICLES
+      async function loadVehicles() {
+
+    const response = await fetch("http://localhost:8080/api/vehicles");
+
+    const vehicles = await response.json();
+
+    let tableData = "";
+
+    vehicles.forEach(vehicle => {
+
+        tableData += `
+            <tr>
+                <td>${vehicle.vehicleNumber}</td>
+                <td>${vehicle.vehicleType}</td>
+                <td>${vehicle.ownerName}</td>
+                <td>${vehicle.slotNumber}</td>
+                <td>${vehicle.status}</td>
+                <td>
+                    <button onclick="deleteVehicle('${vehicle.id}')">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("vehicleTableBody").innerHTML = tableData;
+}
+
+        // SAVE PAYMENT
+
+        async function savePayment() {
+
+            const payment = {
+                vehicleNumber: document.getElementById("paymentVehicleNumber").value,
+                slotNumber: document.getElementById("paymentSlotNumber").value,
+                hours: parseInt(document.getElementById("hours").value),
+                ratePerHour: parseFloat(document.getElementById("ratePerHour").value),
+                paymentStatus: document.getElementById("paymentStatus").value
+            };
+
+            await fetch("http://localhost:8080/api/payments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payment)
+            });
+
+            alert("Payment Saved Successfully");
+        }
+        async function deleteVehicle(id) {
+
+    await fetch("http://localhost:8080/api/vehicles/" + id, {
+        method: "DELETE"
+    });
+
+    alert("Vehicle Deleted Successfully");
+
+    loadVehicles();
+}
+async function updateVehicle() {
+
+    const vehicleId =
+        document.getElementById("updateVehicleId").value;
+
+    const updatedVehicle = {
+
+        vehicleType:
+            document.getElementById("updateVehicleType").value,
+
+        ownerName:
+            document.getElementById("updateOwnerName").value,
+
+        status:
+            document.getElementById("updateVehicleStatus").value
+    };
+
+    await fetch(
+        "http://localhost:8080/api/vehicles/update/" + vehicleId,
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(updatedVehicle)
+        }
+    );
+
+    alert("Vehicle Updated Successfully");
+
+    loadVehicles();
+}
+async function searchVehicle() {
+
+    const vehicleNumber =
+        document.getElementById("searchVehicleNumber").value;
+
+    const response = await fetch(
+        "http://localhost:8080/api/vehicles/search/" +
+        vehicleNumber
+    );
+
+    const vehicle = await response.json();
+
+    if (vehicle && vehicle.vehicleNumber) {
+
+        document.getElementById("searchResult").innerHTML =
+
+            "Vehicle Found : " +
+            vehicle.vehicleNumber +
+            " | Owner : " +
+            vehicle.ownerName +
+            " | Status : " +
+            vehicle.status;
+
+    } else {
+
+        document.getElementById("searchResult").innerHTML =
+            "Vehicle Not Found";
+    }
+}
+    async function searchVehicle() {
+
+    const vehicleNumber =
+        document.getElementById("searchVehicleNumber").value;
+
+    const response = await fetch(
+        "http://localhost:8080/api/vehicles/search/" +
+        vehicleNumber
+    );
+
+    const vehicle = await response.json();
+
+    if (vehicle && vehicle.vehicleNumber) {
+
+        document.getElementById("searchResult").innerHTML =
+
+            "Vehicle Found : " +
+            vehicle.vehicleNumber +
+            " | Owner : " +
+            vehicle.ownerName +
+            " | Status : " +
+            vehicle.status;
+
+    } else {
+
+        document.getElementById("searchResult").innerHTML =
+            "Vehicle Not Found";
+    }
+}
+    function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+}
+    function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+}
+    function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+
+}
+    function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+
+}
+    function updateClock() {
+
+    const now = new Date();
+
+    document.getElementById("liveClock").innerHTML =
+        now.toLocaleString();
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
+function updateGreeting() {
+
+    const hour = new Date().getHours();
+
+    let greeting = "";
+
+    if (hour < 12) {
+
+        greeting = "Good Morning";
+
+    } else if (hour < 18) {
+
+        greeting = "Good Afternoon";
+
+    } else {
+
+        greeting = "Good Evening";
+    }
+
+    document.getElementById("greetingMessage").innerHTML =
+        greeting;
+}
+
+updateGreeting();
+window.onload = function () {
+
+    const ctx =
+        document.getElementById('parkingChart');
+
+    new Chart(ctx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels: [
+                'Vehicles',
+                'Slots',
+                'Payments'
+            ],
+
+            datasets: [{
+
+                label: 'Parking System Analytics',
+
+                data: [12, 19, 8],
+
+                backgroundColor: [
+                    '#2563eb',
+                    '#16a34a',
+                    '#dc2626'
+                ],
+
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+};
+function showNotification(message) {
+
+    const notification =
+        document.getElementById("notification");
+
+    notification.innerHTML = message;
+
+    notification.classList.add("show");
+
+    setTimeout(() => {
+
+        notification.classList.remove("show");
+
+    }, 3000);
+}
+function animateValue(id, endValue) {
+
+    endValue = parseInt(endValue);
+
+    let startValue = 0;
+
+    const element =
+        document.getElementById(id);
+
+    const timer = setInterval(() => {
+
+        startValue++;
+
+        element.innerHTML = startValue;
+
+        if (startValue >= endValue) {
+
+            clearInterval(timer);
+        }
+
+    }, 50);
+}
+
+function previewPlateImage() {
+
+    const file =
+        document.getElementById("plateImage").files[0];
+
+    const preview =
+        document.getElementById("platePreview");
+
+    if (file) {
+
+        preview.src = URL.createObjectURL(file);
+
+        preview.style.display = "block";
+    }
+}
+
+function detectPlate() {
+
+    document.getElementById("detectedPlate").innerHTML =
+        "Detected Number Plate: CAA-1234";
+}
+
+    </script>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>

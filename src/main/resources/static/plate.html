@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Plate Detection</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🚗 Parking System</h2>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="users.html">👤 Users</a>
+    <a href="slots.html">🅿 Parking Slots</a>
+    <a href="vehicles.html">🚗 Vehicles</a>
+    <a href="payments.html">💳 Payments</a>
+    <a href="analytics.html">📈 Analytics</a>
+    <a href="plate.html">📷 Plate AI</a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="navbar">
+        <h1>Number Plate Detection</h1>
+    </div>
+
+    <div class="section">
+
+        <input type="file"
+               id="plateImage"
+               accept="image/*"
+               onchange="previewPlateImage()">
+
+        <br><br>
+
+        <img id="platePreview"
+             src=""
+             style="
+                width:300px;
+                display:none;
+                border-radius:12px;">
+
+        <br><br>
+
+        <button onclick="detectPlate()">
+            Detect Number Plate
+        </button>
+
+        <h3 id="detectedPlate"></h3>
+
+    </div>
+
+</div>
+
+<script>
+
+function previewPlateImage() {
+
+    const file =
+        document.getElementById("plateImage").files[0];
+
+    const preview =
+        document.getElementById("platePreview");
+
+    if (file) {
+
+        preview.src =
+            URL.createObjectURL(file);
+
+        preview.style.display = "block";
+    }
+}
+
+function detectPlate() {
+
+    document.getElementById("detectedPlate")
+        .innerHTML =
+        "Detected Number Plate: CAA-1234";
+}
+
+</script>
+
+</body>
+</html>

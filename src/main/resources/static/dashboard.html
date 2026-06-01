@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🚗 Parking System</h2>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+
+    <a href="users.html">👤 Users</a>
+
+    <a href="slots.html">🅿 Parking Slots</a>
+
+    <a href="vehicles.html">🚗 Vehicles</a>
+
+    <a href="payments.html">💳 Payments</a>
+
+    <a href="analytics.html">📈 Analytics</a>
+
+    <a href="plate.html">📷 Plate AI</a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="navbar">
+
+        <h1>Secure Parking Dashboard</h1>
+
+        <h3 id="greetingMessage"></h3>
+
+        <h3 id="liveClock"></h3>
+
+    </div>
+
+    <div class="section">
+
+        <h1>Dashboard</h1>
+
+        <button onclick="loadDashboard()">
+            Load Dashboard
+        </button>
+
+        <br><br>
+
+        <div class="dashboard-grid">
+
+            <div class="card-blue">
+
+                <h2>Total Vehicles</h2>
+
+                <h1 id="totalVehicles">0</h1>
+
+            </div>
+
+            <div class="card-green">
+
+                <h2>Total Slots</h2>
+
+                <h1 id="totalSlots">0</h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function updateClock() {
+
+        const now = new Date();
+
+        document.getElementById("liveClock")
+            .innerHTML = now.toLocaleString();
+    }
+
+    setInterval(updateClock, 1000);
+
+    updateClock();
+
+    function updateGreeting() {
+
+        const hour = new Date().getHours();
+
+        let greeting = "";
+
+        if (hour < 12) {
+
+            greeting = "Good Morning";
+
+        } else if (hour < 18) {
+
+            greeting = "Good Afternoon";
+
+        } else {
+
+            greeting = "Good Evening";
+        }
+
+        document.getElementById("greetingMessage")
+            .innerHTML = greeting;
+    }
+
+    updateGreeting();
+
+    function animateValue(id, endValue) {
+
+        endValue = parseInt(endValue);
+
+        let startValue = 0;
+
+        const element =
+            document.getElementById(id);
+
+        const timer = setInterval(() => {
+
+            startValue++;
+
+            element.innerHTML = startValue;
+
+            if (startValue >= endValue) {
+
+                clearInterval(timer);
+            }
+
+        }, 50);
+    }
+
+    function loadDashboard() {
+
+        animateValue("totalVehicles", 12);
+
+        animateValue("totalSlots", 20);
+    }
+
+</script>
+
+</body>
+
+</html>
