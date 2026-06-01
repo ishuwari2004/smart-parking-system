@@ -36,3 +36,35 @@ public class PageController {
         return "forward:/slots.html";
     }
 }
+@GetMapping("/analytics")
+public String analytics() {
+    return "forward:/analytics.html";
+}
+
+@GetMapping("/plate-ai")
+public String plateAi() {
+    return "forward:/plate-ai.html";
+}
+@Controller
+public class PageController {
+
+    @GetMapping("/")
+    public String home() {
+        return "forward:/index.html";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "forward:/dashboard.html";
+    }
+
+    @GetMapping("/analytics")
+    public String analytics() {
+        return "forward:/analytics.html";
+    }
+
+    @GetMapping("/plate-ai")
+    public String plateAi() {
+        return "forward:/plate-ai.html";
+    }
+}
